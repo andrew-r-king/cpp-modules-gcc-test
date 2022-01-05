@@ -14,7 +14,7 @@
 		{
 			"label": "echo",
 			"type": "shell",
-			"command": "./build.sh",
+			"command": "./build_macos.sh",
 			"group":{
 				"kind": "build",
 				"isDefault": true

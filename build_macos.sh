@@ -12,8 +12,12 @@ MODULE_ID="e545ab910d1ddd09"
 COLOR="\x1b[0;96m"
 RESET="\x1b[0m"
 
+SYSTEM_HEADER_UNITS="iostream cstdlib"
+INPUT_FILES=$(find src -type f -name '*.cpp')
+
 count=0
-total_count=5
+input_file_count="$(printf "$SYSTEM_HEADER_UNITS $INPUT_FILES\n" | sed 's/ /\n/g' | wc -l)"
+((total_count=input_file_count+1))
 
 do_cmd()
 {
@@ -51,15 +55,18 @@ printf "\n"
 
 sleep 2
 
-for file in $(find src -type f -name '*.cpp'); do
+for file in $INPUT_FILES; do
 	printf "$file:\n"
 	cat $file | grep -E "(export module|import)"  | sed -E 's/^(export module|import|export import) (.+);(.*)$/\2/g' | sed -E 's/^<(.+)(\.)(.+)>$/\1\2\3/g' | sed -E "s/^<(.+)>$/\1 $OUTPUT_DIR\/\1_$MODULE_ID.gcm/g" | sed -E 's/^(.+)$/  \1/g'
 	printf "\n"
 done
 
 # System Header-units
-flags_header_unit "iostream"
-flags_header_unit "cstdlib"
+for file in $SYSTEM_HEADER_UNITS; do
+	flags_header_unit $file
+done
+
+# Note: These must be ordered correctly
 
 # Local Header-units
 # Modules
