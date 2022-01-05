@@ -53,7 +53,7 @@ sleep 2
 
 for file in $(find src -type f -name '*.cpp'); do
 	printf "$file:\n"
-	cat $file | grep -E "(export module|import)"  | sed -E 's/^(export module|import|export import) (.+);$/\2/g' | sed -E 's/^<(.+)(\.)(.+)>$/\1\2\3/g' | sed -E "s/^<(.+)>$/\1 $OUTPUT_DIR\/\1_$MODULE_ID.gcm/g" | sed -E 's/^(.+)$/  \1/g'
+	cat $file | grep -E "(export module|import)"  | sed -E 's/^(export module|import|export import) (.+);(.*)$/\2/g' | sed -E 's/^<(.+)(\.)(.+)>$/\1\2\3/g' | sed -E "s/^<(.+)>$/\1 $OUTPUT_DIR\/\1_$MODULE_ID.gcm/g" | sed -E 's/^(.+)$/  \1/g'
 	printf "\n"
 done
 
