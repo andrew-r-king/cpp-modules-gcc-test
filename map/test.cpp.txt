@@ -1,0 +1,2 @@
+test:impl build/test-impl.cpp.gcm
+test build/test.cpp.gcm
